@@ -1,0 +1,34 @@
+{
+  "name": "angular_graphics",
+  "version": "1.0.0",
+  "description": "angular_graphics project",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ivanky1/angular_graphic.git"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "author": "ivanky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ivanky1/angular_graphic/issues"
+  },
+  "homepage": "https://github.com/Ivanky1/angular_graphic",
+  "dependencies": {
+	"express": "latest",
+	"jade": "latest"
+  },
+  "devDependencies": {
+	"gulp": "latest",
+	"gulp-sass": "latest",
+	"gulp-autoprefixer": "latest",
+	"browser-sync": "latest",
+	"browserify": "latest",
+	"vinyl-source-stream": "latest",
+	"gulp-plumber": "latest",
+	"gulp-rename": "latest",
+	"gulp-notify": "latest"
+  }
+}
