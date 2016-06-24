@@ -1,0 +1,11 @@
+{
+  "name": "node_angular",
+  "version": "1.0.0",
+  "description": "node_angular project",
+  "dependencies": {
+    "angular": "latest",
+    "angular-mocks": "latest",
+    "d3": "latest",
+    "sanitize-css": "latest"
+  }
+}

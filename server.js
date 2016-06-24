@@ -23,6 +23,9 @@ Server.prototype.setupRouting = function() {
     this.app.use('/build', this.express.static(path.join(__dirname, 'build'), {
         maxAge: this.env == 'production' ? 31536000  : 0
     }));
+    this.app.use('/vendor', this.express.static(path.join(__dirname, 'vendor'), {
+        maxAge: this.env == 'production' ? 31536000  : 0
+    }));
 
     this.apiRouter.get('/:dummy?*', function(req, res) {
         res.json({
@@ -43,3 +46,4 @@ Server.prototype.setupRouting = function() {
 
 var server = Object.create(Server.prototype);
 server.bootstrap(process.env.NODE_ENV || 'development');
+

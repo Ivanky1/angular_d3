@@ -3,7 +3,13 @@ html
     head
         meta(charset="UTF-8")
         link(href="/build/combined.css",rel="stylesheet", type="text/css")
-        script(src="/build/combined.js")
         title= pageTitle
-    body
+    body(ng-app="kitApp")
+
+        #container
+            .kit-editor(kit-editor)
+                button(ng-click="center()").btn-center click
+                br
+    script(src="/build/combined.js")
+
 

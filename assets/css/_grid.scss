@@ -1,0 +1,24 @@
+g.axis {
+  pointer-events: none;
+
+  line {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: cripsEdges;
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+.svg-border {
+  pointer-events: none;
+  stroke: #a9b0b8;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.btn-center {
+  float: right;
+  background: #a9a9a9;
+  border-radius: 80%;
+  padding: 10px;
+}
