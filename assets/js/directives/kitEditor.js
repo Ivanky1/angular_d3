@@ -62,8 +62,8 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
                       y: 0,
                   },
                   grid: {
-                      sizeX: 15,
-                      sizeY: 15,
+                      sizeX: 20,
+                      sizeY: 20,
                   },
                   pageProperties: {
 
@@ -75,6 +75,12 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
 
                   }
               };
+
+              $scope.editor.features.pixelsPerMmX =
+                  1 / 0.2645833333333;
+              $scope.editor.features.pixelsPerMmY =
+                  1 / 0.2645833333333;
+
               var posX = '';
               var posY = '';
               d3.select($element[0]).append('button').text('center')
@@ -173,7 +179,8 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
 
               $compile(angular.element($scope.editor.svg.container.append('g')
                   .attr('transform', 'translate(0,0)')
-                  .attr('kit-custom-shape', '').node()))($scope);
+                  .attr('kit-custom-shape', '')
+                  .attr('kit-rect', '').node()))($scope);
           })
 
 

@@ -4,6 +4,7 @@ module.exports = ['d3Factory', '$q', '$window',
         return {
             scope: true,
             restrict: 'A',
+            priority: 1,
 
             // $scope - модель директивы
             // $element - DOM-элемент с директивой, обернут jqLite
@@ -71,7 +72,7 @@ module.exports = ['d3Factory', '$q', '$window',
 
                             if (e.which == 1) {
                                 dragInitiated = true;
-                                $scope.editor.d3.drag.dragging = true;
+                                $scope.editor.behavior.d3.drag.dragging = true;
                             }
                         })
                         // двигаем фигуру
@@ -84,15 +85,19 @@ module.exports = ['d3Factory', '$q', '$window',
                         })
                         .on('dragend', function() {
                             dragInitiated = false;
-                            $scope.editor.d3.drag.dragging = false;
+                            $scope.editor.behavior.d3.drag.dragging = false;
                         })
                     $scope.shape.svg.d3Object.call($scope.shape.dragBehavior.dragObject);
 
-                    $scope.shape.svg.d3Object.append('rect')
-                        .attr('x', 0)
-                        .attr('y', 0)
-                        .attr('width', 50)
-                        .attr('height', 50)
+                    var t = d3.transform($scope.shape.svg.d3Object.attr('transform'));
+                    var tSnapped = $scope.snapToGrid(
+                        $scope.editor,
+                        $scope.snapToGrid($scope.editor, {x: t.translate[0], y: t.translate[1]}),
+                        $scope.shape.dragBehavior.snapFactor);
+
+                    $scope.shape.svg.d3Object.attr('transform', 'translate(' +tSnapped.x+ ',' +tSnapped.y+ ')' );
+                    console.log($scope.shape.svg.d3Object)
+
 
                 })
             }
