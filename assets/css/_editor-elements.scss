@@ -1,5 +1,19 @@
-[kit-rect] {
+[kit-rect], [kit-shape] {
   fill: orange;
   stroke-width: 1.5;
   stroke: #000;
+}
+
+
+
+[kit-custom-shape] {
+
+  fill-rule: evenodd;
+
+  &.dragging {
+    fill-opacity: .6;
+    stroke-opacity: .6;
+    cursor: move;
+  }
+
 }

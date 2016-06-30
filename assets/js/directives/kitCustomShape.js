@@ -96,8 +96,6 @@ module.exports = ['d3Factory', '$q', '$window',
                         $scope.shape.dragBehavior.snapFactor);
 
                     $scope.shape.svg.d3Object.attr('transform', 'translate(' +tSnapped.x+ ',' +tSnapped.y+ ')' );
-                    console.log($scope.shape.svg.d3Object)
-
 
                 })
             }

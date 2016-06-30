@@ -42,11 +42,13 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
               // Отцентровка по кнопке
               $scope.center = function() {
                   var scale = $scope.editor.behavior.d3.zoom.scale();
-                  var cord = {
-                      x: ($window.innerWidth - 600*scale)/2,
-                      y: ($window.innerHeight - 600*scale)/2,
-                  }
-                  $scope.translateTo(cord);
+                  var editorWidth = $scope.editor.pageProperties.widthMm * $scope.editor.features.pixelsPerMmX * scale;
+                  var editorHeight = $scope.editor.pageProperties.heightMm * $scope.editor.features.pixelsPerMmY * scale;
+                  var center = {
+                      x: ($window.innerWidth - editorWidth) / 2,
+                      y: ($window.innerHeight - editorHeight) / 2
+                  };
+                  $scope.translateTo(center);
               }
 
               $scope.editor = {
@@ -62,8 +64,8 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
                       y: 0,
                   },
                   grid: {
-                      sizeX: 20,
-                      sizeY: 20,
+                      sizeX: 5,
+                      sizeY: 5,
                   },
                   pageProperties: {
 
@@ -76,10 +78,6 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
                   }
               };
 
-              $scope.editor.features.pixelsPerMmX =
-                  1 / 0.2645833333333;
-              $scope.editor.features.pixelsPerMmY =
-                  1 / 0.2645833333333;
 
               var posX = '';
               var posY = '';
@@ -127,14 +125,30 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
 
               var DURATION = 800;
 
+              var conversionRect = $scope.editor.svg.rootNode.append('rect')
+                  .attr('width', '1mm')
+                  .attr('height', '1mm');
+
+
+              $scope.editor.features.pixelsPerMmX = conversionRect.node().getBBox().width;
+              $scope.editor.features.pixelsPerMmY = conversionRect.node().getBBox().height;
+
+              conversionRect.remove();
+
+              $scope.editor.pageProperties.widthMm = 297;
+              $scope.editor.pageProperties.heightMm = 210;
+
+              var pageWidth = $scope.editor.pageProperties.widthMm * $scope.editor.features.pixelsPerMmX,
+                  pageHeight = $scope.editor.pageProperties.heightMm * $scope.editor.features.pixelsPerMmY;
+
               borderFrame
                   .transition()
                   .duration(DURATION)
-                  .attr('width', 600)
-                  .attr('height', 600)
+                  .attr('width', pageWidth)
+                  .attr('height', pageHeight);
 
               var linesX = gGridX.selectAll('line')
-                  .data(d3.range(0, 600, $scope.editor.grid.sizeX));
+                  .data(d3.range(0, pageHeight, $scope.editor.grid.sizeX * $scope.editor.features.pixelsPerMmX));
 
               linesX.enter().append('line')
                   .attr('x1', 0)
@@ -143,19 +157,19 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
                   .transition()
                   .duration(DURATION)
                   .attr('y2', function(d) { return d; })
-                  .attr('x2', 600)
+                  .attr('x2', pageWidth)
 
               var linesY = gGridY.selectAll('line')
-                  .data(d3.range(0, 600, $scope.editor.grid.sizeY));
+                  .data(d3.range(0, pageWidth, $scope.editor.grid.sizeY * $scope.editor.features.pixelsPerMmY));
 
-              linesX.enter().append('line')
+              linesY.enter().append('line')
                   .attr('y1', 0)
                   .attr('y2', 0)
                   .attr('x1', function(d) { return d; })
                   .transition()
                   .duration(DURATION)
                   .attr('x2', function(d) { return d; })
-                  .attr('y2', 600);
+                  .attr('y2', pageHeight);
 
               $scope.editor.behavior.d3.zoom = d3.behavior.zoom()
                   .scale(1)
@@ -180,7 +194,14 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
               $compile(angular.element($scope.editor.svg.container.append('g')
                   .attr('transform', 'translate(0,0)')
                   .attr('kit-custom-shape', '')
-                  .attr('kit-rect', '').node()))($scope);
+                  .attr('kit-rect', '')
+                  .node()))($scope);
+
+              $compile(angular.element($scope.editor.svg.container.append('g')
+                  .attr('transform', 'translate(0,0)')
+                  .attr('kit-custom-shape', '')
+                  .attr('kit-shape', '')
+                  .node()))($scope);
           })
 
 
