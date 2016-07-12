@@ -10,10 +10,28 @@
 
   fill-rule: evenodd;
 
-  &.dragging {
+  &.dragging, &.dragging path {
     fill-opacity: .6;
     stroke-opacity: .6;
     cursor: move;
+  }
+
+}
+
+[kit-gear] {
+  .gear {
+    fill-opacity: .85;
+    stroke: gray;
+    stroke-opacity: .25;
+  }
+
+  .gear-outer-circle {
+    fill: #f50500;
+    stroke: gray;
+  }
+
+  .gear-inner-circle {
+    fill: #dd0903;
   }
 
 }

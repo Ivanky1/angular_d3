@@ -198,9 +198,15 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
                   .node()))($scope);
 
               $compile(angular.element($scope.editor.svg.container.append('g')
-                  .attr('transform', 'translate(0,0)')
+                  .attr('transform', 'translate(100, 100)')
                   .attr('kit-custom-shape', '')
                   .attr('kit-shape', '')
+                  .node()))($scope);
+
+              $compile(angular.element($scope.editor.svg.container.append('g')
+                  .attr('transform', 'translate(160, 160)')
+                  .attr('kit-custom-shape', '')
+                  .attr('kit-gear', '')
                   .node()))($scope);
           })
 
@@ -208,3 +214,5 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
       }
     }
 }];
+
+

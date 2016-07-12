@@ -56,8 +56,9 @@ module.exports = ['d3Factory', '$q', '$window',
 
                         if (shouldSnap) {
                             coords = $scope.snapToGrid($scope.editor, coords, $scope.shape.dragBehavior.snapFactor);
-                            $scope.shape.svg.d3Object.attr('transform', 'translate(' +coords.x+ ',' +coords.y+ ')');
                         }
+                            $scope.shape.svg.d3Object.attr('transform', 'translate(' +coords.x+ ',' +coords.y+ ')');
+
                     }
 
                     var dragInitiated = false
@@ -73,6 +74,7 @@ module.exports = ['d3Factory', '$q', '$window',
                             if (e.which == 1) {
                                 dragInitiated = true;
                                 $scope.editor.behavior.d3.drag.dragging = true;
+
                             }
                         })
                         // двигаем фигуру
@@ -81,12 +83,15 @@ module.exports = ['d3Factory', '$q', '$window',
                             var coords = {x: d3.event.x, y: d3.event.y};
                             if (dragInitiated) {
                                 $scope.moveTo(coords.x, coords.y, true);
+                                $scope.shape.svg.d3Object.classed('dragging', true);
                             }
                         })
                         .on('dragend', function() {
                             dragInitiated = false;
                             $scope.editor.behavior.d3.drag.dragging = false;
+                            $scope.shape.svg.d3Object.classed('dragging', false);
                         })
+
                     $scope.shape.svg.d3Object.call($scope.shape.dragBehavior.dragObject);
 
                     var t = d3.transform($scope.shape.svg.d3Object.attr('transform'));
@@ -95,6 +100,7 @@ module.exports = ['d3Factory', '$q', '$window',
                         $scope.snapToGrid($scope.editor, {x: t.translate[0], y: t.translate[1]}),
                         $scope.shape.dragBehavior.snapFactor);
 
+                    $scope.setDragOrigin(tSnapped.x, tSnapped.y);
                     $scope.shape.svg.d3Object.attr('transform', 'translate(' +tSnapped.x+ ',' +tSnapped.y+ ')' );
 
                 })
@@ -102,3 +108,10 @@ module.exports = ['d3Factory', '$q', '$window',
         }
     }
 ];
+
+
+
+
+
+
+
