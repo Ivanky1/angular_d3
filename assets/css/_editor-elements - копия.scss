@@ -1,15 +1,12 @@
-
-[data-kit-rect], [data-moniker*=rect] {
+[kit-rect], [kit-shape], [data-moniker*=rect] {
   fill: orange;
   stroke-width: 1.5;
   stroke: #000;
   // mix-blend-mode: difference;
 }
-[data-moniker*=rect] svg {
-  fill: orange;
-}
 
-g [data-kit-custom-shape], [data-moniker] g {
+
+[kit-custom-shape] {
 
   fill-rule: evenodd;
 
@@ -21,26 +18,29 @@ g [data-kit-custom-shape], [data-moniker] g {
 
 }
 
-[data-kit-gear], [data-moniker*=gear] {
-
+[kit-gear] {
   .gear {
     fill-opacity: .85;
     stroke: gray;
     stroke-opacity: .25;
   }
 
-  .gear-inner-circle {
+  .gear-outer-circle {
     fill: #f50500;
     stroke: gray;
   }
 
-  .gear-outer-circle {
+  .gear-inner-circle {
     fill: #dd0903;
   }
+
+}
+
+[kit-triangle] {
+  fill: #ff0000;
 }
 
 .screw {
-
   &.outer-hex {
     fill: grey;
     fill-opacity: .85;

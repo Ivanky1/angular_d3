@@ -40,6 +40,43 @@ Server.prototype.setupRouting = function() {
         });
     })
 
+    this.app.get('/partials/pallete', function (req, res) {
+        res.render('partials/pallete');
+    });
+
+    this.app.get('/data', function(req, res) {
+        res.json({
+            "core.gear": [
+                [8, 5, 9, 2,
+                    {
+                        innerRadius: 2.5,
+                        outerRadius: 5
+                    },
+                    {
+                        innerRadius: 2.5,
+                        outerRadius: 8
+                    }]
+            ],
+
+            // holeRadius, hHoleCount, vHoleCount
+            "core.rect": [
+                [2.5, 1, 1],
+                [2.5, 2, 1],
+                [2.5, 3, 1],
+                [2.5, 4, 1],
+                [2.5, 5, 1],
+                [2.5, 2, 2],
+                [2.5, 3, 3],
+                [2.5, 4, 4]
+            ],
+
+            // outerHexSize, innerHexSize
+            "core.screw": [
+                [4, 2]
+            ]
+        })
+    })
+
     this.app.use('/api', this.apiRouter);
     this.app.use('/', this.clientRouter);
 }

@@ -1,0 +1,80 @@
+#pallete {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 27em;
+  height: 100%;
+  transition: transform .3s ease;
+  will-change: transform;
+
+  .gutter {
+    float: right;
+    position: relative;
+    width: 3.5em;
+    height: 100%;
+    background: rgb(69, 69, 69);
+    box-shadow: 3px 0 15px 0 rgba(0, 0, 0, .62);
+    transition: background .3s ease;
+
+    &:hover {
+      background: rgb(94, 94, 94);
+    }
+  }
+
+  .working-area {
+    float: left;
+    position: relative;
+    height: 100%;
+    width: 23.5em;
+    left: 0;
+    top: 0;
+    background: rgb(69, 69, 69);
+    overflow-y: auto;
+
+    .element-list {
+      list-style: none;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+
+    circle {
+      fill: orange;
+      stroke: #fff;
+      stroke-width: 1.5;
+      stroke-opacity: .75;
+      fill-opacity: .85;
+    }
+  }
+}
+
+.element-list {
+  li {
+    margin-bottom: 1.4em;
+    position: relative;
+    background: rgb(69, 69, 69);
+    display: block;
+
+    .thumbnail {
+      position: relative;
+      margin: 1em;
+      background: rgba(229, 229, 229, .7);
+      height: 12em;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, .35);
+      border-radius: 15px;
+    }
+  }
+}
+
+.collapsed #pallete {
+  transform: translateX(-23.5em);
+}

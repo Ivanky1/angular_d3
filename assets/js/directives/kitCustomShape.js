@@ -61,6 +61,17 @@ module.exports = ['d3Factory', '$q', '$window',
 
                     }
 
+                    $scope.doSingleRotate = function() {
+                        if ($scope.shape.moniker != 'core.gear' && $scope.shape.moniker != 'core.screw') {
+                            var path =  $scope.shape.svg.d3Object.selectAll('path');
+                            var oldRotate = d3.transform(path.attr('transform')).rotate;
+                            var bBox = $scope.shape.svg.d3Object.node().getBBox();
+                            var centroid = [bBox.x + bBox.width/2, bBox.y + bBox.height/2].join(',');
+                            path.attr('transform', 'rotate('+(oldRotate + 90)+','+centroid+')');
+                            //path.attr('transform', 'rotate('+(oldRotate + 90)+',75,75)');
+                        }
+                    }
+
                     var dragInitiated = false
 
                     $scope.shape.dragBehavior.dragObject = d3.behavior.drag()
@@ -102,6 +113,22 @@ module.exports = ['d3Factory', '$q', '$window',
 
                     $scope.setDragOrigin(tSnapped.x, tSnapped.y);
                     $scope.shape.svg.d3Object.attr('transform', 'translate(' +tSnapped.x+ ',' +tSnapped.y+ ')' );
+
+                    $scope.shape.svg.d3Object.on('mousedown', function() {
+                        var e = d3.event;
+
+                        if (e.ctrlKey && e.button == 0) {
+                            $scope.doSingleRotate();
+                        }
+                        var colors = d3.scale.category10().domain(d3.range(10));
+                        if (e.button == 1) {
+                            d3.select(this).select('path').style('fill', colors(Math.floor(Math.random() * 9)));
+                        }
+                        if (e.altKey && e.button == 0) {
+                            $element.remove();
+                            $scope.$destroy();
+                        }
+                    })
 
                 })
             }

@@ -1,5 +1,5 @@
-module.exports = ['d3Factory', '$q', '$window', '$compile',
-  function(d3Factory, $q, $window, $compile){
+module.exports = ['d3Factory', '$q', '$window', '$compile', '$document',
+  function(d3Factory, $q, $window, $compile, $document){
 
     // DDO - Directive Definition Object
     return {
@@ -190,7 +190,70 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
               $scope.editor.behavior.d3.zoom.event($scope.editor.svg.container);
               $scope.center();
 
+              $scope.editor.behavior.html5 = {};
 
+              $scope.editor.behavior.html5.dragoverHandler = function () {
+                  d3.event.preventDefault();
+              };
+
+              $scope.editor.features.isIE =
+                  (typeof $document[0].createElement('span').dragDrop === 'function');
+
+              $scope.editor.behavior.html5.dropHandler = function () {
+                  var event = d3.event;
+
+                  event.preventDefault();
+                  event.stopPropagation();
+
+                  var dt = event.dataTransfer;
+
+                  var dataType = $scope.editor.isIE ? 'text' : 'text/plain';
+
+                  // core.rect.1
+                  var moniker = dt.getData(dataType);
+
+                  if (moniker) {
+
+                      var namespace = moniker.split('.'); // [core, rect, 1]
+
+                      function coordinateTransform(screenPoint, svgObject) {
+                          var CTM = svgObject.getScreenCTM();
+                          return screenPoint.matrixTransform(CTM.inverse());
+                      }
+
+                      // viewport - screen
+                      //var point = {
+                      //  x: event.pageX,
+                      //  y: event.pageY
+                      //};
+
+                      var point = $scope.editor.svg.rootNode.node().createSVGPoint();
+                      point.x   = event.pageX;
+                      point.y   = event.pageY;
+
+                      point = coordinateTransform(point, $scope.editor.svg.container.node());
+
+                      // viewport -> user
+
+                      $compile(angular.element($scope.editor.svg.container.append('g')
+                          .attr('transform', 'translate(' + point.x + ',' + point.y + ')')
+                          .attr('data-kit-custom-shape', '')
+                          .attr('data-id', namespace[namespace.length - 1])
+                          .attr('data-kit-' + namespace[namespace.length - 2], '').node()))($scope);
+                  }
+              };
+
+              $scope.editor.svg.underlay.on('dragover',
+                  $scope.editor.behavior.html5.dragoverHandler);
+              $scope.editor.svg.container.on('dragover',
+                  $scope.editor.behavior.html5.dragoverHandler);
+
+              $scope.editor.svg.underlay.on('drop',
+                  $scope.editor.behavior.html5.dropHandler);
+              $scope.editor.svg.container.on('drop',
+                  $scope.editor.behavior.html5.dropHandler);
+
+/*
               $compile(angular.element($scope.editor.svg.container.append('g')
                   .attr('transform', 'translate(0,0)')
                   .attr('kit-custom-shape', '')
@@ -208,6 +271,18 @@ module.exports = ['d3Factory', '$q', '$window', '$compile',
                   .attr('kit-custom-shape', '')
                   .attr('kit-gear', '')
                   .node()))($scope);
+
+              $compile(angular.element($scope.editor.svg.container.append('g')
+                  .attr('transform', 'translate(0, 0)')
+                  .attr('kit-custom-shape', '')
+                  .attr('kit-triangle', '')
+                  .node()))($scope);
+
+              $compile(angular.element($scope.editor.svg.container.append('g')
+                  .attr('transform', 'translate(200, 200)')
+                  .attr('kit-custom-shape', '')
+                  .attr('kit-screw', '')
+                  .node()))($scope); */
           })
 
 
