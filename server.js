@@ -27,6 +27,7 @@ Server.prototype.setupRouting = function() {
         maxAge: this.env == 'production' ? 31536000  : 0
     }));
 
+    // Опциональный параметр
     this.apiRouter.get('/:dummy?*', function(req, res) {
         res.json({
             message: 'Welcome to Rest API',

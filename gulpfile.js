@@ -19,8 +19,8 @@ gulp.task('js', function() {
             this.emit('end');
         })
         .pipe(vinylSource("combined.js")) // pipe - проброс поток вв/выв дальше (метод gulp), vinylSource - перемеинововывает файл на лету в памяти!
-        .pipe(gulp.dest("./build"))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest("./build")) // записываем файл в папку build
+        .pipe(browserSync.stream()); // Перегружаем браузер методом stream
 
 });
 
@@ -35,7 +35,7 @@ gulp.task('css', function(){
         .pipe(autoprefixer({
             browsers: ['last 10 versions']
         }))
-        .pipe(rename('combined.css'))
+        .pipe(rename('combined.css'))// переименовываем вот таким методом gulp-rename т.к. autoprefixer не совместим с vinylSource
         .pipe(gulp.dest("./build"))
         .pipe(browserSync.stream());
 
@@ -62,4 +62,7 @@ gulp.task('watch', function(){
     ], ['js']);
 
 });
+
+
+
 
